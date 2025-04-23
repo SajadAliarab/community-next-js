@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== user =====
+model User {
+  id        String      @id @default(uuid())
+  email     String      @unique
+  userName  String
+  password  String
+  type      Role        @default(USER)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  detail    UserDetail?
+}
+
+model UserDetail {
+  userId       String  @id
+  profileImage String? //URL of profile Image
+  coverImage   String? //URL of Cover Image
+  tagLine      String?
+  website      String?
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
