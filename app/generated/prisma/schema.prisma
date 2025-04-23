@@ -18,6 +18,7 @@ model User {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   detail    UserDetail?
+  articles  Article[]
 }
 
 model UserDetail {
@@ -33,4 +34,18 @@ enum Role {
   USER
   ADMIN
   MODERATOR
+}
+
+//===== Article =====
+model Article {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String
+  image     String   @default("defaultArticle.png")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Restrict)
 }

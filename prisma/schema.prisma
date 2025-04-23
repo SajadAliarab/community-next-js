@@ -10,27 +10,42 @@ datasource db {
 
 // ===== user =====
 model User {
-  id  String  @id @default(uuid())
-  email String @unique
-  userName String
-  password String
-  type Role @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  detail UserDetail?
+  id        String      @id @default(uuid())
+  email     String      @unique
+  userName  String
+  password  String
+  type      Role        @default(USER)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  detail    UserDetail?
+  articles  Article[]
 }
 
 model UserDetail {
-  userId String @id
+  userId       String  @id
   profileImage String? //URL of profile Image
-  coverImage String? //URL of Cover Image
-  tagLine String?
-  website String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coverImage   String? //URL of Cover Image
+  tagLine      String?
+  website      String?
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum Role{
+enum Role {
   USER
   ADMIN
   MODERATOR
+}
+
+//===== Article =====
+model Article {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String
+  image     String   @default("defaultArticle.png")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Restrict)
 }
