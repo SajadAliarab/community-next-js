@@ -1,6 +1,6 @@
 'use client'
 
-import { createTagAction } from "@/actions/create-tag-action"
+import { createTagAction } from "@/actions/tag-action"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 

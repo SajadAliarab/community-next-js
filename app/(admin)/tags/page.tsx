@@ -1,30 +1,42 @@
-import { prisma } from "@/lib/prisma";
+import { deleteTagAction } from "@/actions/tag-action";
+import { getTag } from "@/services/tag-service";
 
 export default async function page(){
-    const tags = await prisma.tag.findMany({
-        orderBy:{createdAt:'desc'}
-    })
+  const tags = await getTag()
     return(
         <>
-        <div className="p-8 max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Tags List</h1>
-            <table className="w-full table-auto border-collapse">
+<div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Tags</h1>
+      <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="bg-gray-200 text-black">
-            <th className="border p-2">Title</th>
-            <th className="border p-2">Slug</th>
+          <tr className="border-b">
+            <th className="py-2">Num</th>
+            <th className="py-2">Title</th>
+            <th className="py-2">Slug</th>
+            <th className="py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {tags.map((tag) => (
-            <tr key={tag.id}>
-              <td className="border p-2">{tag.title}</td>
-              <td className="border p-2">{tag.slug}</td>
+          {tags.map((tag, index) => (
+            <tr key={tag.id} className="border-b">
+              <td className="py-2">{index+1}</td>
+              <td className="py-2">{tag.title}</td>
+              <td className="py-2">{tag.slug}</td>
+              <td className="py-2 flex gap-2">
+                <button className="text-blue-500 hover:underline">Edit</button>
+                <form action={async()=>{
+                     'use server'
+                     await deleteTagAction(tag.id)
+                }
+                } method="post">
+                  <button type="submit" className="text-red-500 hover:underline">Delete</button>
+                </form>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-        </div>
+    </div>
         </>
     )
 }
