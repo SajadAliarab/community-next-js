@@ -1,4 +1,4 @@
-'user server'
+'use server'
 import {createTag} from '@/services/tag-service'
 
 export async function createTagAction(formData:FormData) {
