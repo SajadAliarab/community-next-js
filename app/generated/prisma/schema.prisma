@@ -19,6 +19,9 @@ model User {
   updatedAt DateTime    @updatedAt
   detail    UserDetail?
   articles  Article[]
+  topics    Topic[]
+  comments  Comment[]
+  replies   Reply[]
 }
 
 model UserDetail {
@@ -48,4 +51,94 @@ model Article {
   authorId  String
 
   author User @relation(fields: [authorId], references: [id], onDelete: Restrict)
+}
+
+//===== Category =====
+model Category {
+  id          String     @id @default(uuid())
+  name        String
+  slug        String     @unique
+  description String
+  image       String     @default("defaultCategory.png")
+  active      Boolean    @default(false)
+  parentId    String?
+  parent      Category?  @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: Restrict)
+  children    Category[] @relation("CategoryToCategory")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  topics      Topic[]
+}
+
+//=====Topic=====
+model Topic {
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  view       Int      @default(0)
+  like       Int      @default(0)
+  pinned     Boolean  @default(false)
+  active     Boolean  @default(false)
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+//=====Comment=====
+model Comment {
+  id              String      @id @default(uuid())
+  content         String
+  like            Int         @default(0)
+  active          Boolean     @default(true)
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  CommentableId   String
+  CommentableType CommentType
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  replies         Reply[]
+}
+
+enum CommentType {
+  ARTICLE
+  TOPIC
+}
+
+//=====Reply=====
+model Reply {
+  id        String   @id @default(uuid())
+  content   String
+  like      Int      @default(0)
+  active    Boolean  @default(true)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//=====Tag=====
+model Tag {
+  id        String     @id @default(uuid())
+  title     String
+  slug      String     @unique
+  taggables Taggable[]
+}
+
+model Taggable {
+  id           String   @id @default(uuid())
+  tagId        String
+  tag          Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  taggableId   String
+  taggableType TagType
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum TagType {
+  ARTICLE
+  TOPIC
 }

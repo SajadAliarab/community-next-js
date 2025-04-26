@@ -146,6 +146,70 @@ exports.Prisma.ArticleScalarFieldEnum = {
   authorId: 'authorId'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  image: 'image',
+  active: 'active',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TopicScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  view: 'view',
+  like: 'like',
+  pinned: 'pinned',
+  active: 'active',
+  authorId: 'authorId',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  like: 'like',
+  active: 'active',
+  userId: 'userId',
+  CommentableId: 'CommentableId',
+  CommentableType: 'CommentableType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReplyScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  like: 'like',
+  active: 'active',
+  userId: 'userId',
+  commentId: 'commentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug'
+};
+
+exports.Prisma.TaggableScalarFieldEnum = {
+  id: 'id',
+  tagId: 'tagId',
+  taggableId: 'taggableId',
+  taggableType: 'taggableType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -166,10 +230,26 @@ exports.Role = exports.$Enums.Role = {
   MODERATOR: 'MODERATOR'
 };
 
+exports.CommentType = exports.$Enums.CommentType = {
+  ARTICLE: 'ARTICLE',
+  TOPIC: 'TOPIC'
+};
+
+exports.TagType = exports.$Enums.TagType = {
+  ARTICLE: 'ARTICLE',
+  TOPIC: 'TOPIC'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   UserDetail: 'UserDetail',
-  Article: 'Article'
+  Article: 'Article',
+  Category: 'Category',
+  Topic: 'Topic',
+  Comment: 'Comment',
+  Reply: 'Reply',
+  Tag: 'Tag',
+  Taggable: 'Taggable'
 };
 
 /**
