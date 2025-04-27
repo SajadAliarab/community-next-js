@@ -1,5 +1,6 @@
 import { deleteTagAction } from "@/actions/tag-action";
 import { getTag } from "@/services/tag-service";
+import Link from "next/link";
 
 export default async function page(){
   const tags = await getTag()
@@ -23,12 +24,10 @@ export default async function page(){
               <td className="py-2">{tag.title}</td>
               <td className="py-2">{tag.slug}</td>
               <td className="py-2 flex gap-2">
-                <button className="text-blue-500 hover:underline">Edit</button>
-                <form action={async()=>{
-                     'use server'
-                     await deleteTagAction(tag.id)
-                }
-                } method="post">
+              <Link href={`/tags/${tag.id}/edit`} className="text-blue-500 hover:underline">
+                Edit
+              </Link>
+                <form action={deleteTagAction.bind(null, tag.id)}>
                   <button type="submit" className="text-red-500 hover:underline">Delete</button>
                 </form>
               </td>

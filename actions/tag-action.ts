@@ -1,6 +1,7 @@
 "use server";
 import { createTag, deleteTag, updateTag } from "@/services/tag-service";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 // CREATE
 export async function createTagAction(formData: FormData) {
   const title = formData.get("title") as string;
@@ -11,7 +12,9 @@ export async function createTagAction(formData: FormData) {
   }
   try {
     const newTag = await createTag(title, slug);
+    setTimeout(()=>redirect('/tags'),3000)
     return newTag;
+    
   } catch (error) {
     console.error("create tag error", error);
     throw new Error("could not create tag");
@@ -32,7 +35,7 @@ export async function deleteTagAction(id: string) {
   }
 }
 
-//Update
+//UPDATE
 export async function updateTagAction(id: string, formData: FormData) {
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;

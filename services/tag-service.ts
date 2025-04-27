@@ -33,3 +33,8 @@ export async function getTag(){
         }
     })
 }
+export async function getTagById(id:string){
+    return await prisma.tag.findFirst({
+        where:{id}
+    })
+}
