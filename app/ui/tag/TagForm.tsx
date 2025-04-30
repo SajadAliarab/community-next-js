@@ -1,55 +1,33 @@
 'use client'
 
-import { useFormState } from "react-dom"
-
-export type TagFormState = {
-  success?: string
-  error?: string
-}
-
 type TagFormProps = {
-  action: (prevState: TagFormState | null, formData: FormData) => Promise<TagFormState>
-  initialData?: {
-    title: string
-    slug: string
-  }
+  action: (formData: FormData) => Promise<void>
   submitText: string
+  initialData?: { title: string; slug: string }
 }
 
-export default function TagForm({ action, initialData, submitText }: TagFormProps) {
-  const [state, formAction] = useFormState(action, null)
-
+export default function TagForm({ action, submitText, initialData }: TagFormProps) {
   return (
-    <form action={formAction} className="flex flex-col gap-4 text-black">
-      <div>
-        <label className="block mb-1 font-medium">Title</label>
-        <input
-          name="title"
-          defaultValue={initialData?.title || ''}
-          required
-          className="w-full p-2 border rounded"
-        />
-      </div>
+    <form action={action} method="post" className="flex flex-col gap-4 text-black">
+      <label className="font-medium">Title</label>
+      <input
+        name="title"
+        defaultValue={initialData?.title}
+        required
+        className="border rounded p-2"
+      />
 
-      <div>
-        <label className="block mb-1 font-medium">Slug</label>
-        <input
-          name="slug"
-          defaultValue={initialData?.slug || ''}
-          required
-          className="w-full p-2 border rounded"
-        />
-      </div>
+      <label className="font-medium">Slug</label>
+      <input
+        name="slug"
+        defaultValue={initialData?.slug}
+        required
+        className="border rounded p-2"
+      />
 
-      <button
-        type="submit"
-        className="p-2 bg-green-600 text-white rounded hover:bg-green-700"
-      >
+      <button type="submit" className="bg-blue-600 text-white p-2 rounded">
         {submitText}
       </button>
-
-      {state?.error && <p className="text-red-500">{state.error}</p>}
-      {state?.success && <p className="text-green-500">{state.success}</p>}
     </form>
   )
 }

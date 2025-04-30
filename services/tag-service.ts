@@ -20,7 +20,7 @@ export async function updateTag(id:string,data:{title:string,slug:string}){
         data
     })
 }
-export async function getTag(){
+export async function getTags(){
     return await prisma.tag.findMany({
         select:{
             id:true,

@@ -1,25 +1,13 @@
-import { createTagAction } from "@/actions/tag-action"
-import TagForm, { TagFormState } from "@/app/ui/tag/TagForm"
+import TagForm from '@/app/ui/tag/TagForm'
+import { createTagAction } from '@/actions/tag-action'
+import FlashMessage from '@/components/FlashMessage'
 
-export default function page(){
-
-    const createTagWithState = async (_prevState:TagFormState | null , formData:FormData): Promise<TagFormState> =>{
-        'use server'
-        try {
-            await createTagAction.bind(formData);
-            return { success: 'Tag created successfully!' }
-          } catch (error) {
-            return { error: 'Failed to create tag.' }
-          }
-    }
-    return(
-      <div className="max-w-md mx-auto mt-10">
+export default function CreateTagPage() {
+  return (
+    <div className="max-w-md mx-auto p-6">
+      <FlashMessage />
       <h1 className="text-2xl font-bold mb-4">Create Tag</h1>
-      <TagForm
-      action={createTagWithState}
-      submitText="Create Tag"
-      />
-      </div>
-    )
-    
+      <TagForm action={createTagAction} submitText="Create Tag" />
+    </div>
+  )
 }
