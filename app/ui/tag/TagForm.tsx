@@ -8,13 +8,13 @@ type TagFormProps = {
 
 export default function TagForm({ action, submitText, initialData }: TagFormProps) {
   return (
-    <form action={action} method="post" className="flex flex-col gap-4 text-black">
+    <form action={action} method="post" className="flex flex-col gap-4">
       <label className="font-medium">Title</label>
       <input
         name="title"
         defaultValue={initialData?.title}
         required
-        className="border rounded p-2"
+        className="border rounded p-2 bg-input text-primary"
       />
 
       <label className="font-medium">Slug</label>
@@ -22,10 +22,10 @@ export default function TagForm({ action, submitText, initialData }: TagFormProp
         name="slug"
         defaultValue={initialData?.slug}
         required
-        className="border rounded p-2"
+        className="border rounded p-2 bg-input text-primary"
       />
 
-      <button type="submit" className="bg-blue-600 text-white p-2 rounded">
+      <button type="submit" className="bg-accent text-white p-2 rounded">
         {submitText}
       </button>
     </form>
