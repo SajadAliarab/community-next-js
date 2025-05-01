@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from 'next-themes'
 import "./globals.css";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
          <ThemeProvider attribute="class">
+         <header className="p-4 flex justify-end border-b border-border">
+          <ThemeToggle />
+        </header>
           {children}
         </ThemeProvider>
       </body>
