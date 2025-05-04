@@ -1,12 +1,12 @@
 import type {User as PrismaUser } from '@prisma/client'
 import {prisma} from '@/lib/prisma'
 import bcrypt from 'bcrypt'
-export type CreateUserInput = Omit<PrismaUser , 'id' | 'createdAt' | 'updatedAt' | 'detail' | 'articles' | 'topiscs' | 'comments' | 'replies'>
-export type UpdateUserInput = Pick<PrismaUser , 'email' | 'userName' | 'type' >
+export type CreateUserInput = Omit<PrismaUser , 'id' | 'createdAt' | 'updatedAt' | 'detail' | 'articles' | 'topics' | 'comments' | 'replies'>
+export type UpdateUserInput = Pick<PrismaUser ,'id'|'email'| 'userName' | 'type' >
 export type UserListItems = Pick<PrismaUser, 'id' | 'email' | 'userName' | 'type' | 'createdAt'>
 export async function createUser(data : CreateUserInput):Promise<PrismaUser>{
     const{password, ...rest} = data
-    const hashPassword = await bcrypt.hash(password,Number(process.env.SALT_ROUNDS) | 10)
+    const hashPassword = await bcrypt.hash(password,Number(process.env.SALT_ROUNDS) || 10)
     return await prisma.user.create({
         data:{
             password:hashPassword,
